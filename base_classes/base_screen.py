@@ -13,7 +13,7 @@ class BaseScreen(Screen):
         self.base_upper = BoxLayout(orientation='horizontal', cols=3, size_hint=(1, .10), padding=5, spacing=2)
         self.base_lower = BoxLayout()
         self.upper_panel = BaseUpperPanel(parent=self.base, navigate_screens=navigate_screens)
-        self.lower_panel = BoxLayout(orientation='vertical')
+        self.lower_panel = BoxLayout()
 
         self.base_layout.add_widget(self.base_upper)
         self.base_layout.add_widget(self.base_lower)
