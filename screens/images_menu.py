@@ -34,4 +34,5 @@ class ImagesMenu(BaseScreen):
             pass
         else:
             img_file = os.path.join(path, filename[0])
-            # return ShowImageScreen(img_file)
+            # print img_file
+            return ShowImageScreen(img_file)
