@@ -21,11 +21,14 @@ class BaseUpperPanel(GridLayout):
         self.add_widget(Button(text='Next >>', on_press=self.navigate_next))
 
     def navigate_next(self, *args):
-        self.parent_screen.manager.current = self.next_screen
+        if len(self.next_screen) > 0:
+            self.parent_screen.manager.current = self.next_screen
 
     def navigate_back(self, *args):
-        self.parent_screen.manager.current = self.previous_screen
+        if len(self.previous_screen) > 0:
+            self.parent_screen.manager.current = self.previous_screen
 
     def navigate_home(self, *args):
-        self.parent_screen.manager.current = self.home_screen
+        if len(self.home_screen) > 0:
+            self.parent_screen.manager.current = self.home_screen
 
