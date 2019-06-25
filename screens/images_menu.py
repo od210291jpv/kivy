@@ -1,12 +1,17 @@
 import os
-
-from kivy.core.text import Label
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.filechooser import FileChooserListView
-from kivy.uix.gridlayout import GridLayout
+from kivy.uix.image import Image
 
 from base_classes.base_screen import BaseScreen
+
+
+class ShowImageScreen(BaseScreen):
+    def __init__(self, name, *navigate_screens):
+        super(ShowImageScreen, self).__init__(name, *navigate_screens)
+        self.image = Image(source=r'')
+        self.add_widget(self.image)
 
 
 class ImagesMenu(BaseScreen):
@@ -25,7 +30,8 @@ class ImagesMenu(BaseScreen):
         self.lower_grid.add_widget(self.filechooser)
 
     def open_f(self, path, filename):
-        print(filename)
-        if len(filename) > 0:
-            with open(os.path.join(path, filename[0])) as f:
-                print(f.read())
+        if len(filename) > 1:
+            pass
+        else:
+            img_file = os.path.join(path, filename[0])
+            # return ShowImageScreen(img_file)

@@ -22,13 +22,16 @@ class BaseUpperPanel(GridLayout):
 
     def navigate_next(self, *args):
         if len(self.next_screen) > 0:
+            self.parent_screen.manager.transition.direction = 'left'
             self.parent_screen.manager.current = self.next_screen
 
     def navigate_back(self, *args):
         if len(self.previous_screen) > 0:
+            self.parent_screen.manager.transition.direction = 'right'
             self.parent_screen.manager.current = self.previous_screen
 
     def navigate_home(self, *args):
         if len(self.home_screen) > 0:
+            self.parent_screen.manager.transition.direction = 'up'
             self.parent_screen.manager.current = self.home_screen
 
