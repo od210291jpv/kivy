@@ -5,6 +5,7 @@ from kivy.uix.filechooser import FileChooserListView
 from kivy.uix.image import Image
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
+from kivy.utils import platform
 
 from base_classes.base_screen import BaseScreen
 
@@ -16,6 +17,10 @@ class ImagesMenu(BaseScreen):
         self.lower_panel.add_widget(self.lower_grid)
 
         self.filechooser = FileChooserListView()
+        if platform == 'android':
+            self.filechooser.path = '/sdcard/DCIM'
+        else:
+            self.filechooser.path = os.getcwd()
         self.filechooser.bind(on_selection=lambda x: self.selected(self.filechooser.selection))
 
         self.open_file_button = Button(text='Open Image', size_hint=(1, .1))
