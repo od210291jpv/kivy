@@ -3,15 +3,10 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.filechooser import FileChooserListView
 from kivy.uix.image import Image
+from kivy.uix.label import Label
+from kivy.uix.popup import Popup
 
 from base_classes.base_screen import BaseScreen
-
-
-class ShowImageScreen(BaseScreen):
-    def __init__(self, name, *navigate_screens):
-        super(ShowImageScreen, self).__init__(name, *navigate_screens)
-        self.image = Image(source=r'')
-        self.add_widget(self.image)
 
 
 class ImagesMenu(BaseScreen):
@@ -30,9 +25,16 @@ class ImagesMenu(BaseScreen):
         self.lower_grid.add_widget(self.filechooser)
 
     def open_f(self, path, filename):
-        if len(filename) > 1:
-            pass
+        if not filename:
+            img_file = None
+            image_pop = Popup()
+            image_pop.add_widget(Label(text='No image file selected'))
+            image_pop.open()
         else:
             img_file = os.path.join(path, filename[0])
-            # print img_file
-            return ShowImageScreen(img_file)
+        image_pop = Popup()
+        image_pop.add_widget(Image(source=img_file))
+        image_pop.open() if img_file else ''
+
+    def open_image_screen_callback(self):
+        self.upper_panel.navigate_next()
