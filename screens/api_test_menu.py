@@ -1,7 +1,11 @@
-from requests import Request
+import requests
 from base_classes.base_screen import BaseScreen
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
+
+
+weather = requests.get('https://google.com')
+print weather.status_code
 
 
 class WebAPIMenu(BaseScreen):
