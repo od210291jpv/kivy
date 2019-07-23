@@ -1,11 +1,11 @@
 import random
 import string
-
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
 from kivy.cache import Cache
 from kivy.uix.image import AsyncImage
 from kivy.uix.popup import Popup
+from kivy.uix.scatter import Scatter
 from kivy.uix.textinput import TextInput
 import requests
 from base_classes.base_screen import BaseScreen
@@ -36,16 +36,19 @@ class WebImagesMenu(BaseScreen):
         data_key = self._load_data_to_cache(requests.get(host + '/get_json_images/').json())
         return data_key
 
-    def _get_images_list(self, host, data):
+    @staticmethod
+    def _get_images_list(host, data):
         for x in data.values():
             yield host + x
 
-    def _load_data_to_cache(self, data):
+    @staticmethod
+    def _load_data_to_cache(data):
         key = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(7))
         Cache.append('json_cache', key, data)
         return key
 
-    def _get_data_from_cache(self, key):
+    @staticmethod
+    def _get_data_from_cache(key):
         return Cache.get('json_cache', key)
 
     def scan_content_callback(self, *args):
@@ -61,9 +64,11 @@ class WebImagesMenu(BaseScreen):
 
         images_pop = Popup()
         popup_box = BoxLayout(orientation='vertical')
-        self.image = ImageButton(source=links_generator.next())
+        box_scatter = Scatter(scale=4, auto_bring_to_front=False)
+        popup_box.add_widget(box_scatter)
+        self.image = AsyncImage(source=links_generator.next())
 
-        popup_box.add_widget(self.image)
+        box_scatter.add_widget(self.image)
         next_button = Button(text='>> Next', on_press=lambda x: self._get_next_image(links_generator), size_hint=(1, 0.1))
         popup_box.add_widget(next_button)
 
