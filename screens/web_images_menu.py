@@ -36,16 +36,19 @@ class WebImagesMenu(BaseScreen):
         data_key = self._load_data_to_cache(requests.get(host + '/get_json_images/').json())
         return data_key
 
-    def _get_images_list(self, host, data):
+    @staticmethod
+    def _get_images_list(host, data):
         for x in data.values():
             yield host + x
 
-    def _load_data_to_cache(self, data):
+    @staticmethod
+    def _load_data_to_cache(data):
         key = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(7))
         Cache.append('json_cache', key, data)
         return key
 
-    def _get_data_from_cache(self, key):
+    @staticmethod
+    def _get_data_from_cache(key):
         return Cache.get('json_cache', key)
 
     def scan_content_callback(self, *args):
