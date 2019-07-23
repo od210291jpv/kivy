@@ -1,6 +1,9 @@
+import random
+import string
+
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
-
+from kivy.cache import Cache
 from kivy.uix.image import AsyncImage
 from kivy.uix.popup import Popup
 from kivy.uix.textinput import TextInput
@@ -16,10 +19,11 @@ class ImageButton(ButtonBehavior, AsyncImage):
         self.source = super(ImageButton, self).source
 
 
-class WebAPIMenu(BaseScreen):
+class WebImagesMenu(BaseScreen):
     def __init__(self, name, *navigate_screens):
         self.content = {}
-        super(WebAPIMenu, self).__init__(name, *navigate_screens)
+        super(WebImagesMenu, self).__init__(name, *navigate_screens)
+        Cache.register('json_cache', timeout='180')
         grid = GridLayout(cols=1, size_hint=(1, 0.9))
         self.add_widget(grid)
         self.host_input = TextInput(size_hint=(0.1, 0.1))
@@ -27,15 +31,33 @@ class WebAPIMenu(BaseScreen):
         grid.add_widget(self.host_input)
         grid.add_widget(scan_button)
 
-    def _get_images_list(self, host):
-        for x in self.content.values():
+    def get_api_response_json(self):
+        host = self.host_input.text
+        data_key = self._load_data_to_cache(requests.get(host + '/get_json_images/').json())
+        return data_key
+
+    def _get_images_list(self, host, data):
+        for x in data.values():
             yield host + x
+
+    def _load_data_to_cache(self, data):
+        key = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(7))
+        Cache.append('json_cache', key, data)
+        return key
+
+    def _get_data_from_cache(self, key):
+        return Cache.get('json_cache', key)
 
     def scan_content_callback(self, *args):
         host = self.host_input.text
-        data = requests.get(host + '/get_json_images/')
-        self.content = data.json()
-        links_generator = self._get_images_list(host)
+        cache_key = self.get_api_response_json()
+        data_obj = self._get_data_from_cache(cache_key)
+
+        if not data_obj:
+            cache_key = self.get_api_response_json()
+            data_obj = self._get_data_from_cache(cache_key)
+
+        links_generator = self._get_images_list(host, data_obj)
 
         images_pop = Popup()
         popup_box = BoxLayout(orientation='vertical')
