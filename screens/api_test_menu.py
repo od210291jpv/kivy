@@ -1,7 +1,5 @@
-import requests
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
-import os
 
 from kivy.uix.image import AsyncImage
 from kivy.uix.popup import Popup
@@ -37,7 +35,6 @@ class WebAPIMenu(BaseScreen):
         host = self.host_input.text
         data = requests.get(host + '/get_json_images/')
         self.content = data.json()
-        print self.content
         links_generator = self._get_images_list(host)
 
         images_pop = Popup()
