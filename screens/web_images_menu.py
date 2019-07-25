@@ -7,6 +7,8 @@ from kivy.uix.image import AsyncImage
 from kivy.uix.popup import Popup
 from kivy.uix.scatter import Scatter
 from kivy.uix.textinput import TextInput
+from kivymd.theming import ThemeManager
+
 import requests
 from base_classes.base_screen import BaseScreen
 from kivy.uix.button import Button
@@ -21,8 +23,9 @@ class ImageButton(ButtonBehavior, AsyncImage):
 
 class WebImagesMenu(BaseScreen):
     def __init__(self, name, *navigate_screens):
-        self.content = {}
         super(WebImagesMenu, self).__init__(name, *navigate_screens)
+        self.content = {}
+        self.theme_cls = ThemeManager()
         Cache.register('json_cache', timeout=180)
         grid = GridLayout(cols=1, size_hint=(1, 0.9))
         self.add_widget(grid)

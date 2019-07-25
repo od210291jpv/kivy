@@ -5,6 +5,7 @@ from screens.sst_screen import STTScreen
 from screens.web_images_menu import WebImagesMenu
 from screens.images_menu import ImagesMenu
 from screens.main_menu import MainMenuScreen
+from kivymd.theming import ThemeManager
 
 sm = ScreenManager()
 main_menu_screen = MainMenuScreen('Main menu', 'Images', '', 'Main menu')
@@ -21,6 +22,8 @@ sm.add_widget(stt_screen)
 class MainApp(App):
 
     def build(self):
+        self.theme_cls = ThemeManager()
+        self.theme_cls.theme_style = 'Dark'
         return sm
 
 

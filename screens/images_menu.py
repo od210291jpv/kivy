@@ -6,6 +6,7 @@ from kivy.uix.image import Image
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 from kivy.utils import platform
+from kivymd.label import MDLabel
 
 from base_classes.base_screen import BaseScreen
 
@@ -33,7 +34,7 @@ class ImagesMenu(BaseScreen):
         if not filename:
             img_file = None
             image_pop = Popup()
-            image_pop.add_widget(Label(text='No image file selected'))
+            image_pop.add_widget(MDLabel(text='No image file selected', halign='center'))
             image_pop.open()
         else:
             img_file = os.path.join(path, filename[0])
