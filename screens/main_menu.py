@@ -7,7 +7,7 @@ from base_classes.base_screen import BaseScreen
 class MainMenuScreen(BaseScreen):
     def __init__(self, name, *navigate_screens):
         super(MainMenuScreen, self).__init__(name, *navigate_screens)
-        self.label_box = GridLayout(cols=1, spacing=20, orientation='vertical', size_hint=(1, .25))
+        self.label_box = GridLayout(cols=1, spacing=20, size_hint=(1, .25))
         self.lower_panel.orientation = 'vertical'
         self.lower_panel.cols = 1
         self.lower_panel.add_widget(self.label_box)

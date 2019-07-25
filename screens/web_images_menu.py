@@ -23,7 +23,7 @@ class WebImagesMenu(BaseScreen):
     def __init__(self, name, *navigate_screens):
         self.content = {}
         super(WebImagesMenu, self).__init__(name, *navigate_screens)
-        Cache.register('json_cache', timeout='180')
+        Cache.register('json_cache', timeout=180)
         grid = GridLayout(cols=1, size_hint=(1, 0.9))
         self.add_widget(grid)
         self.host_input = TextInput(size_hint=(0.1, 0.1))
@@ -66,7 +66,7 @@ class WebImagesMenu(BaseScreen):
         popup_box = BoxLayout(orientation='vertical')
         box_scatter = Scatter(scale=4, auto_bring_to_front=False)
         popup_box.add_widget(box_scatter)
-        self.image = AsyncImage(source=links_generator.next())
+        self.image = AsyncImage(source=links_generator.__next__())
 
         box_scatter.add_widget(self.image)
         next_button = Button(text='>> Next', on_press=lambda x: self._get_next_image(links_generator), size_hint=(1, 0.1))
@@ -76,4 +76,4 @@ class WebImagesMenu(BaseScreen):
         images_pop.open()
 
     def _get_next_image(self, generetor):
-        self.image.source = generetor.next()
+        self.image.source = generetor.__next__()
