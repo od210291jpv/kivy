@@ -1,0 +1,18 @@
+[
+    {
+        "type": "title",
+        "title": "Host settings"
+    },
+    {
+        "type": "string",
+        "title": "Host IP",
+        "section": "host_settings",
+        "key": "host_ip"
+    },
+    {
+        "type": "string",
+        "title": "Host Port",
+        "section": "host_settings",
+        "key": "host_port"
+    }
+]

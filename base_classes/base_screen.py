@@ -9,8 +9,8 @@ class BaseScreen(Screen):
         super(BaseScreen, self).__init__()
         self.name = name
         self.base = self
-        self.base_layout = BoxLayout(orientation='vertical', cols=1)
-        self.base_upper = BoxLayout(orientation='horizontal', cols=3, size_hint=(1, .10), padding=5, spacing=2)
+        self.base_layout = BoxLayout(orientation='vertical')
+        self.base_upper = BoxLayout(orientation='horizontal', size_hint=(1, .10), padding=5, spacing=2)
         self.base_lower = BoxLayout()
         self.upper_panel = BaseUpperPanel(parent=self.base, navigate_screens=navigate_screens)
         self.lower_panel = BoxLayout()
@@ -23,4 +23,4 @@ class BaseScreen(Screen):
         self.add_widget(self.base_layout)
 
         def test_callback():
-            print 'test callback'
+            print('test callback')
