@@ -1,11 +1,10 @@
 import os
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
 from kivy.uix.filechooser import FileChooserListView
 from kivy.uix.image import Image
-from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 from kivy.utils import platform
+from kivymd.button import MDRaisedButton
 from kivymd.label import MDLabel
 
 from base_classes.base_screen import BaseScreen
@@ -24,7 +23,7 @@ class ImagesMenu(BaseScreen):
             self.filechooser.path = os.getcwd()
         self.filechooser.bind(on_selection=lambda x: self.selected(self.filechooser.selection))
 
-        self.open_file_button = Button(text='Open Image', size_hint=(1, .1))
+        self.open_file_button = MDRaisedButton(text='Open Image', size_hint=(1, .1))
         self.open_file_button.bind(on_release=lambda x: self.open_f(self.filechooser.path, self.filechooser.selection))
 
         self.lower_grid.add_widget(self.open_file_button)

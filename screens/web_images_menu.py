@@ -21,13 +21,15 @@ class WebImagesMenu(BaseScreen):
         self.conf_parser.read('settings.ini')
         self.host = self.conf_parser['host_settings']['host_ip']
         self.port = self.conf_parser['host_settings']['host_port']
-        self.content = {}
+        self.items_amount = 0
+        self.cur_img = 1
+        self.loaded_images = []
         self.theme_cls = ThemeManager()
         self.theme_cls.primary_palette = 'Yellow'
         self.theme_cls.accent_palette = 'Red'
         Cache.register('json_cache', timeout=180)
-        grid = GridLayout(cols=1, size_hint=(1, 0.9), spacing=5, padding=5)
-        self.add_widget(grid)
+        grid = BoxLayout(orientation='vertical', spacing=15, padding=15)
+        self.lower_panel.add_widget(grid)
         scan_button = MDRaisedButton(text='Scan for content', on_press=self.scan_content_callback)
         grid.add_widget(scan_button)
 
@@ -55,6 +57,7 @@ class WebImagesMenu(BaseScreen):
         host_link = r'http://{}:{}'.format(self.host, self.port)
         cache_key = self.get_api_response_json()
         data_obj = self._get_data_from_cache(cache_key)
+        self.items_amount = len(data_obj)
 
         if not data_obj:
             cache_key = self.get_api_response_json()
@@ -62,18 +65,36 @@ class WebImagesMenu(BaseScreen):
 
         links_generator = self._get_images_list(host_link, data_obj)
 
-        images_pop = Popup()
+        images_pop = Popup(on_dismiss=self.clear_counters)
+        images_pop.title = '{} image from {}'.format(self.cur_img, self.items_amount)
         popup_box = BoxLayout(orientation='vertical')
-        box_scatter = Scatter(scale=4, auto_bring_to_front=False)
+        box_scatter = Scatter(scale=6, auto_bring_to_front=False)
         popup_box.add_widget(box_scatter)
+
+        lower_buttons_grid = GridLayout(cols=3, spacing=6, padding=5, size_hint=(1, 0.1))
+
         self.image = AsyncImage(source=links_generator.__next__())
 
         box_scatter.add_widget(self.image)
-        next_button = Button(text='>> Next', on_press=lambda x: self._get_next_image(links_generator), size_hint=(1, 0.1))
-        popup_box.add_widget(next_button)
+        next_button = Button(text='>> Next', on_press=lambda x: self._get_next_image(links_generator, images_pop))
+        prev_button = Button(text='<< Prev')
+        add_to_fav_button = Button(text='Add to Fav')
+        popup_box.add_widget(lower_buttons_grid)
+        lower_buttons_grid.add_widget(prev_button)
+        lower_buttons_grid.add_widget(add_to_fav_button)
+        lower_buttons_grid.add_widget(next_button)
 
         images_pop.add_widget(popup_box)
         images_pop.open()
 
-    def _get_next_image(self, generetor):
-        self.image.source = generetor.__next__()
+    def _get_next_image(self, generetor, popup_obj):
+        try:
+            self.image.source = generetor.__next__()
+            self.cur_img += 1
+            popup_obj.title = '{} image from {}'.format(self.cur_img, self.items_amount)
+        except StopIteration:
+            pass
+
+    def clear_counters(self, *args):
+        self.items_amount = 0
+        self.cur_img = 1
