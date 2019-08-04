@@ -6,7 +6,6 @@ from kivy.uix.image import AsyncImage
 from kivy.uix.popup import Popup
 from kivy.uix.scatter import Scatter
 from kivymd.theming import ThemeManager
-from kivymd.button import MDRaisedButton
 import requests
 from base_classes.base_screen import BaseScreen
 from kivy.uix.button import Button
@@ -30,7 +29,7 @@ class WebImagesMenu(BaseScreen):
         Cache.register('json_cache', timeout=180)
         grid = BoxLayout(orientation='vertical', spacing=15, padding=15)
         self.lower_panel.add_widget(grid)
-        scan_button = MDRaisedButton(text='Scan for content', on_press=self.scan_content_callback)
+        scan_button = Button(text='Scan for content', on_press=self.scan_content_callback, size_hint=(1, 0.1))
         grid.add_widget(scan_button)
 
     def get_api_response_json(self):
@@ -68,7 +67,7 @@ class WebImagesMenu(BaseScreen):
         images_pop = Popup(on_dismiss=self.clear_counters)
         images_pop.title = '{} image from {}'.format(self.cur_img, self.items_amount)
         popup_box = BoxLayout(orientation='vertical')
-        box_scatter = Scatter(scale=6, auto_bring_to_front=False)
+        box_scatter = Scatter(scale=6, auto_bring_to_front=False, do_rotation=False)
         popup_box.add_widget(box_scatter)
 
         lower_buttons_grid = GridLayout(cols=3, spacing=6, padding=5, size_hint=(1, 0.1))

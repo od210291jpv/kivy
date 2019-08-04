@@ -1,6 +1,6 @@
+from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivymd.theming import ThemeManager
-from kivymd.button import MDRaisedButton
 
 
 class BaseUpperPanel(GridLayout):
@@ -17,11 +17,11 @@ class BaseUpperPanel(GridLayout):
         self.cols = 3
         self.orientation = 'horizontal'
         self.padding = 3
-        self.spacing = self.width/3
+        self.spacing = 3
         self.height = 10
-        self.add_widget(MDRaisedButton(text='<< Prev', on_press=self.navigate_back))
-        self.add_widget(MDRaisedButton(text='Home', on_press=self.navigate_home))
-        self.add_widget(MDRaisedButton(text='Next >>', on_press=self.navigate_next))
+        self.add_widget(Button(text='<< Prev', on_press=self.navigate_back))
+        self.add_widget(Button(text='Home', on_press=self.navigate_home))
+        self.add_widget(Button(text='Next >>', on_press=self.navigate_next))
 
     def navigate_next(self, *args):
         if len(self.next_screen) > 0:
