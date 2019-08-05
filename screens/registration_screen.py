@@ -9,13 +9,14 @@ import requests
 
 
 class RegistrationScreen(Screen):
-    def __init__(self, navigate_to):
+    def __init__(self, screen_name, navigate_to):
         super(RegistrationScreen, self).__init__()
         self.conf_parser = ConfigParser()
         self.conf_parser.read('settings.ini')
         self.host = self.conf_parser['host_settings']['host_ip']
         self.port = self.conf_parser['host_settings']['host_port']
 
+        self.name = screen_name
         self.navigate_to_screen = navigate_to
 
         self.lower_panel = BoxLayout()
