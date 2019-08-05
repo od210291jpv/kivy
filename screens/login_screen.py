@@ -1,3 +1,4 @@
+import requests
 from kivy.config import ConfigParser
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
@@ -38,8 +39,19 @@ class LoginScreen(Screen):
         self.lower_panel.add_widget(self.status_label)
 
     def login_user(self, *args):
-        pass
+        link = r'http://{}:{}/login/'.format(self.host, self.port)
+        j_data = {}
+        j_data["username"] = self.username_input.text
+        j_data["password"] = self.password_input.text
+
+        response = requests.post(link, data=j_data)
+
+        if response.status_code == 200:
+            response_data = response.json()
+            if response_data['state'] == 'ok':
+                self.manager.transition.direction = 'up'
+                self.manager.current = self.navigate_to_screen
 
     def go_to_registration(self, *args):
-        self.manager.transition.direction = 'up'
+        self.manager.transition.direction = 'down'
         self.manager.current = self.register_screen

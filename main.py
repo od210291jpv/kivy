@@ -11,7 +11,7 @@ from kivymd.theming import ThemeManager
 
 sm = ScreenManager()
 login = LoginScreen('Login', 'Main menu', 'registration')
-registration = RegistrationScreen('registration', 'Main menu')
+registration = RegistrationScreen('registration', 'Login')
 main_menu_screen = MainMenuScreen('Main menu', 'Images', '', 'Main menu')
 images_screen = ImagesMenu('Images', 'ApiScreen', 'Main menu', 'Main menu')
 api_screen = WebImagesMenu('ApiScreen', 'Settings', 'Images', 'Main menu')
