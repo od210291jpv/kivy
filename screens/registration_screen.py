@@ -26,7 +26,9 @@ class RegistrationScreen(Screen):
         self.repeat_password_input = TextInput(text='password2')
         self.register_button = Button(text='Register user', on_release=self.register)
 
-        lower_grid = GridLayout(cols=1, spacing=2, padding=2, row_force_default=True, row_default_height=40)
+        self.status_label = Label(text='Text')
+
+        lower_grid = GridLayout(cols=1, spacing=2, padding=2)
         lower_grid.add_widget(Label(text='Username:'))
         lower_grid.add_widget(self.username_input)
         lower_grid.add_widget(Label(text='Email:'))
@@ -36,6 +38,7 @@ class RegistrationScreen(Screen):
         lower_grid.add_widget(Label(text='Repeat password:'))
         lower_grid.add_widget(self.repeat_password_input)
         lower_grid.add_widget(self.register_button)
+        lower_grid.add_widget(self.status_label)
         self.lower_panel.add_widget(lower_grid)
 
     def register(self, *args):
@@ -44,14 +47,24 @@ class RegistrationScreen(Screen):
         j_data["username"] = self.username_input.text
         j_data["email"] = self.email_inout.text
         j_data["password"] = self.password_input.text
-        try:
-            response = requests.post(link, data=j_data)
-        except:
-            pass
-        response_data = response.json()
-        if response_data['state'] == 'ok':
-            self.manager.transition.direction = 'up'
-            self.manager.current = self.navigate_to_screen
+
+        if '@' not in j_data['email'] and '.' not in j_data['email']:
+            self.status_label.text = 'Incorrect email format'
+        elif j_data['password'] != self.repeat_password_input.text:
+            self.status_label.text = 'Password and repeat password' + '\r\n' + 'are not equal'
         else:
-            pass
+            try:
+                response = requests.post(link, data=j_data)
+                if response.status_code == 200:
+                    response_data = response.json()
+                    if response_data['state'] == 'ok':
+                        self.manager.transition.direction = 'up'
+                        self.manager.current = self.navigate_to_screen
+                    else:
+                        self.status_label.text = 'Unexpected error ocurred'
+                if response.status_code == 403:
+                    self.status_label.text = 'User with such username already exists'
+            except:
+                self.status_label.text = 'Network error'
+
 

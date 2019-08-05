@@ -21,5 +21,5 @@ class MainMenuScreen(BaseScreen):
         self.label_box.add_widget(self.tts_input)
 
     def update_label(self, *args):
-        self.tts_label.text = text='Width: {}, Height: {}'.format(self.width, self.height)
+        self.tts_label.text = 'Width: {}, Height: {}'.format(self.width, self.height)
 
