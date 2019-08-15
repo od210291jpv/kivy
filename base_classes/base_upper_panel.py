@@ -19,9 +19,9 @@ class BaseUpperPanel(GridLayout):
         self.padding = 3
         self.spacing = 3
         self.height = 10
-        self.add_widget(Button(text='<< Prev', on_press=self.navigate_back))
-        self.add_widget(Button(text='Home', on_press=self.navigate_home))
-        self.add_widget(Button(text='Next >>', on_press=self.navigate_next))
+        self.add_widget(Button(text='<< Prev', on_press=self.navigate_back,  background_normal='',  background_color=[.99, .3, .3, .99]))
+        self.add_widget(Button(text='Home', on_press=self.navigate_home,  background_normal='',  background_color=[.99, .3, .3, .99]))
+        self.add_widget(Button(text='Next >>', on_press=self.navigate_next,  background_normal='',  background_color=[.99, .3, .3, .99]))
 
     def navigate_next(self, *args):
         if len(self.next_screen) > 0:

@@ -19,20 +19,22 @@ class LoginScreen(Screen):
         self.name = screen_name
         self.register_screen = register_screen
 
-        self.lower_panel = BoxLayout(orientation='vertical', spacing=5, padding=5)
+        self.lower_panel = BoxLayout(orientation='vertical', spacing=5, padding=15)
         self.add_widget(self.lower_panel)
 
-        self.username_input = TextInput(text='username')
-        self.password_input = TextInput(text='password')
+        self.username_input = TextInput(size_hint_y=.6)
+        self.password_input = TextInput(size_hint_y=.6)
 
-        self.login_button = Button(text='Login', on_release=self.login_user)
-        self.register_button = Button(text='Registration', on_release=self.go_to_registration)
+        self.login_button = Button(text='Login', on_release=self.login_user, size_hint_y=.6, background_normal='',
+                                   background_color=[.99, .3, .3, .99])
+        self.register_button = Button(text='Registration', on_release=self.go_to_registration, size_hint_y=.6,
+                                      background_normal='',  background_color=[.99, .3, .3, .99])
 
         self.status_label = Label()
 
-        self.lower_panel.add_widget(Label(text='Login'))
+        self.lower_panel.add_widget(Label(text='Login', size_hint_y=.6))
         self.lower_panel.add_widget(self.username_input)
-        self.lower_panel.add_widget(Label(text='Password'))
+        self.lower_panel.add_widget(Label(text='Password', size_hint_y=.6))
         self.lower_panel.add_widget(self.password_input)
         self.lower_panel.add_widget(self.login_button)
         self.lower_panel.add_widget(self.register_button)

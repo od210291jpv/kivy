@@ -27,10 +27,10 @@ class WebImagesMenu(BaseScreen):
         self.theme_cls.primary_palette = 'Yellow'
         self.theme_cls.accent_palette = 'Red'
         Cache.register('json_cache', timeout=180)
-        grid = BoxLayout(orientation='vertical', spacing=15, padding=15)
-        self.lower_panel.add_widget(grid)
-        scan_button = Button(text='Scan for content', on_press=self.scan_content_callback, size_hint=(1, 0.1))
-        grid.add_widget(scan_button)
+        box = BoxLayout(orientation='vertical', spacing=15, padding=20, size_hint_y=.2)
+        self.lower_panel.add_widget(box)
+        scan_button = Button(text='Scan for content', on_press=self.scan_content_callback, size_hint_y=.2)
+        box.add_widget(scan_button)
 
     def get_api_response_json(self):
         host_link = r'http://{}:{}/get_json_images/'.format(self.host, self.port)
