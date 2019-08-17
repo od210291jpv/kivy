@@ -21,14 +21,15 @@ class RegistrationScreen(Screen):
 
         self.lower_panel = BoxLayout()
         self.add_widget(self.lower_panel)
-        self.username_input = TextInput(size_hint_y=.6)
-        self.email_inout = TextInput(text='', size_hint_y=.6)
-        self.password_input = TextInput(text='', size_hint_y=.6)
-        self.repeat_password_input = TextInput(text='', size_hint_y=.6)
+        self.username_input = TextInput(size_hint_y=.6, multiline=False)
+        self.email_inout = TextInput(size_hint_y=.6, multiline=False)
+        self.password_input = TextInput(size_hint_y=.6, multiline=False)
+        self.repeat_password_input = TextInput(size_hint_y=.6, multiline=False)
         self.register_button = Button(text='Register user', on_release=self.register, size_hint_y=.7,
                                       background_normal='',  background_color=[.99, .3, .3, .99])
         self.back_to_login_button = Button(text='Back to login', size_hint_y=.7,
-                                           background_normal='',  background_color=[.99, .3, .3, .99])
+                                           background_normal='',  background_color=[.99, .3, .3, .99],
+                                           on_release=self.go_back_callback)
 
         self.status_label = Label(text='')
 
@@ -69,7 +70,11 @@ class RegistrationScreen(Screen):
                         self.status_label.text = 'Unexpected error ocurred'
                 if response.status_code == 403:
                     self.status_label.text = 'User with such username already exists'
-            except:
+            except BaseException:
+                self.status_label.text = 'Network error'
+            except ConnectionError:
                 self.status_label.text = 'Network error'
 
-
+    def go_back_callback(self, *args):
+        self.manager.transition.direction = 'left'
+        self.manager.current = self.navigate_to_screen

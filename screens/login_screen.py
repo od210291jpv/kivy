@@ -22,8 +22,8 @@ class LoginScreen(Screen):
         self.lower_panel = BoxLayout(orientation='vertical', spacing=5, padding=15)
         self.add_widget(self.lower_panel)
 
-        self.username_input = TextInput(size_hint_y=.6)
-        self.password_input = TextInput(size_hint_y=.6)
+        self.username_input = TextInput(size_hint_y=.6, multiline=False)
+        self.password_input = TextInput(size_hint_y=.6, multiline=False)
 
         self.login_button = Button(text='Login', on_release=self.login_user, size_hint_y=.6, background_normal='',
                                    background_color=[.99, .3, .3, .99])
