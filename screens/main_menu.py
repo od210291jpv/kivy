@@ -1,12 +1,12 @@
 from kivy.uix.accordion import AccordionItem
-from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import AsyncImage
+
 from base_classes.base_screen import BaseScreen
 from kivymd.accordion import MDAccordion
-from kivymd.label import MDLabel
 
 from base_classes.profile_menu_label import MenuItemLabel
+from screens.feed_screen import Feed
 
 
 class MainMenuScreen(BaseScreen):
@@ -42,7 +42,8 @@ class MainMenuScreen(BaseScreen):
 
         self.profile.add_widget(base_box)
 
+        # self.feed.add_widget(FeedItem(image_path='https://codeguida.com/media/post_title/kivy-logo-black-256_70JCttF.png'))
+        self.feed.add_widget(Feed())
 
     def update_label(self, *args):
         pass
-
