@@ -28,8 +28,13 @@ class NetworkAdapter:
     def get_my_followers(self, base64_token):
         pass
 
-    def get_my_favorites(self, base64_token):
-        pass
+    def get_my_favorites(self, username):
+        host_link = r'http://{}:{}/get_my_favs/'.format(self.host, self.port)
+        try:
+            response = requests.post(host_link, data={'username': username})
+            return response.json()
+        except:
+            return 'Network error'
 
     def get_my_messages(self, base64_token):
         pass

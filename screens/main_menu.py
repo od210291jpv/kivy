@@ -2,15 +2,18 @@ from kivy.uix.accordion import AccordionItem
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.image import AsyncImage
+from kivy.uix.popup import Popup
 
 from base_classes.base_screen import BaseScreen
 from kivymd.accordion import MDAccordion
 
 from base_classes.profile_menu_label import MenuItemLabel
+from screens.favorites_screen import FavoritesScreen
 from screens.feed_screen import Feed
 
 
 class MainMenuScreen(BaseScreen):
+
     def __init__(self, name, *navigate_screens):
         super(MainMenuScreen, self).__init__(name, *navigate_screens)
 
@@ -36,7 +39,7 @@ class MainMenuScreen(BaseScreen):
         self.username_label = MenuItemLabel(text='Test username')
         self.followers_label = MenuItemLabel(text='Followers')
         self.posts_amount = MenuItemLabel(text='Posts published')
-        self.my_favs_button = Button(text='My Favorites', size_hint_y=.4, size_hint_x=.5, padding=[2,2])
+        self.my_favs_button = Button(text='My Favorites', size_hint_y=.4, size_hint_x=.5, padding=[2, 2], on_press=self.show_favorites_callback)
         self.my_messages_button = Button(text='My Messages', size_hint_y=.4, size_hint_x=.5)
         self.find_friends_button = Button(text='My Friends')
 
@@ -52,3 +55,9 @@ class MainMenuScreen(BaseScreen):
 
     def update_label(self, *args):
         pass
+
+    @staticmethod
+    def show_favorites_callback(*args):
+        favs_popup = Popup()
+        favs_popup.add_widget(FavoritesScreen())
+        favs_popup.open()
