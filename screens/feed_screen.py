@@ -1,7 +1,6 @@
 from kivy.config import ConfigParser
 from kivy.lang import Builder
 from kivy.uix.image import AsyncImage
-from kivy.uix.label import Label
 from kivy.uix.recycleview import RecycleView
 from kivy.uix.recycleview.views import RecycleDataViewBehavior
 
@@ -38,7 +37,6 @@ class Feed(RecycleView):
         feed_images = api_iface.get_feed()
 
         try:
-            self.data = [{'source': r'http://{}:{}{}'.format(self.host, self.port, x)} for x in feed_images.values()]
+            self.data = [{'source': r'http://{}:{}{}'.format(self.host, self.port, x[0])} for x in feed_images.values()]
         except AttributeError:
             pass
-        print(self.data)

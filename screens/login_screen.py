@@ -51,6 +51,12 @@ class LoginScreen(Screen):
         if response.status_code == 200:
             response_data = response.json()
             if response_data['state'] == 'ok':
+                conf_parser = ConfigParser()
+                conf_parser.read('userinfo.ini')
+                conf_parser.set('user_info', 'username', j_data["username"])
+                with open('userinfo.ini', 'w') as settings:
+                    conf_parser.write()
+
                 self.manager.transition.direction = 'up'
                 self.manager.current = self.navigate_to_screen
 

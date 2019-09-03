@@ -1,5 +1,6 @@
 from kivy.uix.accordion import AccordionItem
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
 from kivy.uix.image import AsyncImage
 
 from base_classes.base_screen import BaseScreen
@@ -35,14 +36,18 @@ class MainMenuScreen(BaseScreen):
         self.username_label = MenuItemLabel(text='Test username')
         self.followers_label = MenuItemLabel(text='Followers')
         self.posts_amount = MenuItemLabel(text='Posts published')
+        self.my_favs_button = Button(text='My Favorites', size_hint_y=.4, size_hint_x=.5, padding=[2,2])
+        self.my_messages_button = Button(text='My Messages', size_hint_y=.4, size_hint_x=.5)
+        self.find_friends_button = Button(text='My Friends')
 
         menu_items_box.add_widget(self.username_label)
         menu_items_box.add_widget(self.followers_label)
         menu_items_box.add_widget(self.posts_amount)
+        menu_items_box.add_widget(self.my_favs_button)
+        menu_items_box.add_widget(self.my_messages_button)
 
         self.profile.add_widget(base_box)
 
-        # self.feed.add_widget(FeedItem(image_path='https://codeguida.com/media/post_title/kivy-logo-black-256_70JCttF.png'))
         self.feed.add_widget(Feed())
 
     def update_label(self, *args):

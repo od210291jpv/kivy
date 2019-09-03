@@ -20,6 +20,8 @@ class WebImagesMenu(BaseScreen):
         self.conf_parser.read('settings.ini')
         self.host = self.conf_parser['host_settings']['host_ip']
         self.port = self.conf_parser['host_settings']['host_port']
+        self.conf_parser.read('userinfo.ini')
+        self.username = self.conf_parser['user_info']['username']
         self.items_amount = 0
         self.cur_img = 1
         self.loaded_images = []
@@ -40,7 +42,7 @@ class WebImagesMenu(BaseScreen):
     @staticmethod
     def _get_images_list(host, data):
         for x in data.values():
-            yield '{}'.format(host) + x
+            yield '{}'.format(host) + x[0], x[1]
 
     @staticmethod
     def _load_data_to_cache(data):
@@ -51,6 +53,15 @@ class WebImagesMenu(BaseScreen):
     @staticmethod
     def _get_data_from_cache(key):
         return Cache.get('json_cache', key)
+
+    def add_to_fav_callback(self, image_name):
+        host_link = r'http://{}:{}/add_to_favs/'.format(self.host, self.port)
+        responce = requests.post(host_link, data={'username': self.username, 'image_name': image_name})
+        if responce.status_code == str(200):
+            if responce.json()['state'] == 'ok':
+                return True
+        else:
+            print(responce.json())
 
     def scan_content_callback(self, *args):
         host_link = r'http://{}:{}'.format(self.host, self.port)
@@ -72,12 +83,14 @@ class WebImagesMenu(BaseScreen):
 
         lower_buttons_grid = GridLayout(cols=3, spacing=6, padding=5, size_hint=(1, 0.1))
 
-        self.image = AsyncImage(source=links_generator.__next__())
+        img_obj = links_generator.__next__()
+        self.image = AsyncImage(source=img_obj[0])
+        self.img_name = img_obj[1]
 
         box_scatter.add_widget(self.image)
         next_button = Button(text='>> Next', on_press=lambda x: self._get_next_image(links_generator, images_pop))
         prev_button = Button(text='<< Prev')
-        add_to_fav_button = Button(text='Add to Fav')
+        add_to_fav_button = Button(text='Add to Fav', on_release=lambda x: self.add_to_fav_callback(self.img_name))
         popup_box.add_widget(lower_buttons_grid)
         lower_buttons_grid.add_widget(prev_button)
         lower_buttons_grid.add_widget(add_to_fav_button)
@@ -88,7 +101,10 @@ class WebImagesMenu(BaseScreen):
 
     def _get_next_image(self, generetor, popup_obj):
         try:
-            self.image.source = generetor.__next__()
+            img_obj = generetor.__next__()
+
+            self.image.source = img_obj[0]
+            self.img_name = img_obj[1]
             self.cur_img += 1
             popup_obj.title = '{} image from {}'.format(self.cur_img, self.items_amount)
         except StopIteration:
